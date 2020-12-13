@@ -1,5 +1,5 @@
-resource "aws_elb" "bar" {
-  name = "foobar-terraform-elbs"
+resource "aws_elb" "bar1" {
+  name = "foobar1-terraform-elbs"
 
   availability_zones = [
     "${var.region}a",
@@ -28,6 +28,12 @@ resource "aws_elb" "bar" {
   connection_draining_timeout = 400
 
   tags = {
-    Name = "foobar-terraform-elbs"
+    Name = "foobar1-terraform-elbs"
   }
+}
+
+
+resource "aws_autoscaling_attachment" "asg_attachment_bar" {
+  autoscaling_group_name = "${aws_autoscaling_group.example.id}"
+  elb                    = "${aws_elb.bar1.id}"
 }
